@@ -7,6 +7,7 @@
 #	'make run'       boot the os
 #	'make debug'     debug with another terminal
 #       'make clean'     removes the entire os build
+#       'make complete'  builds, installs, and runs the os
 
 all: build
 build: boot1 boot2
@@ -25,6 +26,7 @@ kernel_asm.o: kernel.asm
 	nasm -g -f elf -F dwarf -o kernel_asm.o kernel.asm
 
 # All other functions of the Makefile
+complete: build install run
 install:
 	bximage -mode=create -fd=1.44M  -q a.img
 	/sbin/mkdosfs a.img
