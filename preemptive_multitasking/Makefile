@@ -12,18 +12,22 @@
 all: build
 build: boot1 boot2
 
+
 boot1: boot1.asm kernel.exe
 	nasm -l boot1.list -DENTRY=0x$(shell nm kernel.exe | grep main | cut -d " " -f 1) boot1.asm
 boot2: kernel.exe
 	objcopy -j .text* -j .data* -j .rodata* -S -O binary kernel.exe boot2
 
-kernel.exe: kernel_c.o kernel_asm.o 
-	ld  -g -melf_i386 -Ttext 0x10000 -e main -o kernel.exe kernel_asm.o kernel_c.o
+kernel.exe: kernel_c.o kernel_asm.o screen_c.o screen_asm.o
+	ld -g -melf_i386 -Ttext 0x10000 -e main -o $@ $^
 
-kernel_c.o: kernel.c
-	gcc -g -m32 -c -o kernel_c.o kernel.c
-kernel_asm.o: kernel.asm
-	nasm -g -f elf -F dwarf -o kernel_asm.o kernel.asm
+
+# Build all Modules
+%_c.o: %.c
+	$(CC) $(COPTS) -o $@ $<
+%_asm.o: %.asm
+	$(NASM) $(NASMOPTS) -o $@ $<
+
 
 # All other functions of the Makefile
 complete: build install run

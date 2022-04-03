@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+#include "screen.h"
+
 #define NULL ((void *)0)
 #define MAX_PROCESS_ALLOCATIONS 20
 #define STACK_SIZE 1024
@@ -11,7 +13,6 @@
 // * lidtr
 // * go
 // * dispatch
-
 
 // Structures
 // process control block, has all process info
@@ -66,19 +67,12 @@ void dispatch();
 void default_handler();
 void lidtr(idtr_t* idtr);
 int create_process(uint32_t process_entry);
-// Console Functions
-void k_clearscr(int numrow, int numcol);
-void k_print(char* string, int string_length, int row, int col);
-void print_border(int start_row, int start_col, int end_row, int end_col);
 // Processes
 void p1();
 void p2();
 void p3();
 void p4();
 void p5();
-// Basic Functions
-int num_to_str_helper(uint32_t num, char buf[]);
-void num_to_str(uint32_t num, char buf[]);
 
 // Start of Program
 int main(){
@@ -90,7 +84,7 @@ int main(){
 
 	init_idt();
 
-	// add all processes	
+	// add all processes
 	int retval;
 	retval = create_process((uint32_t)&p1);
 	retval = create_process((uint32_t)&p2);
@@ -103,31 +97,12 @@ int main(){
 	return 0;
 }
 
-
-// Basic Functions
-int num_to_str_helper(uint32_t num, char buf[]){
-	if(num == 0){ return 0; }
-	int idx = num_to_str_helper((num / 10), buf);
-	buf[idx] = num % 10 + '0';
-	buf[idx+1] = '\0';
-	return idx + 1;
-}
-void num_to_str(uint32_t num, char buf[]){
-	if(num == 0){
-		buf[0] = '0';
-		buf[1] = '\0';
-	}else{
-		num_to_str_helper(num, buf);
-	}
-}
-
-
 // Processes
 void p1(){
 	int i = 0;
 	char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','1',':',' ','0','0','0'};
 	while(1){
-		num_to_str(i, proc_msg+12);	
+		num_to_str(i, proc_msg+12);
 		k_print(proc_msg, sizeof(proc_msg), 3, 0);
 		i = ((i+1)%500);
 		asm("int $32"); // Call dispatcher
@@ -208,13 +183,13 @@ void init_idt(){
 	for(int i=0; i<IDT_SIZE; i++){
 		if(i < 32){
 			// for 0-31, set to point to the default handler
-           		init_idt_entry(idt+i, (uint32_t)&default_handler, 16, 0x8e); 
+           		init_idt_entry(idt+i, (uint32_t)&default_handler, 16, 0x8e);
         	}else if(i == 32){
 			// for 32, set it to point to dispatcher function
 			init_idt_entry(idt+i, (uint32_t)&dispatch, 16, 0x8e);
         	}else if(i > 33){
 			// for 33-255, set it to point to 0
-			init_idt_entry(idt+i, 0, 0, 0); 
+			init_idt_entry(idt+i, 0, 0, 0);
 		}
 	}
 	idtr_t idtr;
@@ -228,7 +203,7 @@ void default_handler(){
 	char* screen_text = "ERROR: Entering Default Handler";
 	k_print(screen_text, screen_text_length, 24, 0);
 	// run forever, not allowing return as it would cause an error
-	while(1){}
+	while(1);
 }
 int create_process(uint32_t process_entry){
 	if (next_pid >= MAX_PROCESS_ALLOCATIONS){
@@ -238,9 +213,9 @@ int create_process(uint32_t process_entry){
 	uint32_t* st = stackptr + STACK_SIZE;
 
 	// Stack Setup
-	// 0x00
+	// 0x200 for interrupts
 	st--;
-	*st = 0;
+	*st = 0x200;
 	// CS
 	st--;
 	*st = 16;
@@ -294,45 +269,22 @@ int create_process(uint32_t process_entry){
 	return 0; // no errors
 }
 
-
-// Console Functions
-void k_clearscr(int numrow, int numcol){
-	int i; // temp variable for work
-	// make a char array to print one row
-	char arr[numcol];
-	for(i=0; i<numcol; i++){
-		arr[i] = ' '; // blank
-	}
-	// print each row with row char array
-	i = 0;
-	while(i < numrow){
-		k_print(arr, numcol, i, 0);	
-		i = i + 1;
-	}
-}
-void print_border(int start_row, int start_col, int end_row, int end_col){
-	int i; // temp variable for work
-	int numcol = end_col - start_col + 1;
-	int numrow = end_row - start_row + 1;
-	// make the arr for top and bottom of the box
-        char tbarr[numcol];
-        for(i=0; i<numcol; i++){
-		if(i == 0 || i == numcol-1){
-			tbarr[i] = '+';	
-		}else{
-                	tbarr[i] = '-';
-       		}
-	}
-	// print based on row
-	char* sidechar = "|";
-	for(i=0; i<numrow; i++){
-		if(i == 0 || i == numrow-1){
-			// bottom or top
-			k_print(tbarr, numcol, i+(start_row-1), start_col-1);			
-		}else{
-			// in the middle
-			k_print(sidechar, 1, i+(start_row-1), start_col-1); // left
-			k_print(sidechar, 1, i+(start_row-1), end_col-1); // right
-		}
-	}
+void setup_PIC() {
+  // set up cascading mode:
+  outportb(0x20, 0x11); // start 8259 master initialization
+  outportb(0xA0, 0x11); // start 8259 slave initialization
+  outportb(0x21, 0x20); // set master base interrupt vector (idt 32-38)
+  outportb(0xA1, 0x28); // set slave base interrupt vector (idt 39-45)
+  // Tell the master that he has a slave:
+  outportb(0x21, 0x04); // set cascade ...
+  outportb(0xA1, 0x02); // on IRQ2
+  // Enabled 8086 mode:
+  outportb(0x21, 0x01); // finish 8259 initialization
+  outportb(0xA1, 0x01);
+  // Reset the IRQ masks
+  outportb(0x21, 0x0);
+  outportb(0xA1, 0x0);
+  // Now, enable the clock IRQ only
+  outportb(0x21, 0xfe); // Turn on the clock IRQ
+  outportb(0xA1, 0xff); // Turn off all others
 }
