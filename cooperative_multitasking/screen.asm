@@ -4,19 +4,16 @@ k_print:
   ; set up ebp so we can get to the arguments
   push ebp
   mov ebp, esp
-
   ; now push any registers you may use during the function, including the flags register
   pushf
   push eax
   push ebx
   push ecx
-
   ; load for calculating offset
 	mov esi, [ebp+8]   ; move string into esi register
 	mov eax, 0xB8000   ; base storage addr
 	mov ebx, [ebp+16]  ; row
 	mov ecx, [ebp+20]  ; column
-
 	; calculate offset
   ; offset = (row * 80 + col) * 2
 	; addr = base_storage_addr + offset
@@ -25,7 +22,6 @@ k_print:
 	imul ebx,2    ; last_val * 2
 	add ebx, eax  ; last_val + base storage address
 	mov edi, ebx  ; move offsetted address into edi
-
 	; set length and see if we need to print
 	mov ecx, [ebp+12] ; move length to ecx
 
@@ -40,12 +36,10 @@ _reset_address:
 _continue_loop:
 	cmp ecx, 0          ; compare length to zero
 	je _done_print      ; if so we are done
-
-	movsb               ;es:[edi], ds:[esi]
+	movsb               ; es:[edi], ds:[esi]
 	mov BYTE [edi], 31  ; color byte
 	inc edi
 	dec ecx
-
 	jmp _print_loop
 
 _done_print:
@@ -56,5 +50,3 @@ _done_print:
   popf
   pop ebp
   ret
-
-
