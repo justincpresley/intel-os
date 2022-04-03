@@ -6,28 +6,17 @@
 #include "idt.h"
 #include "process.h"
 
-// Globals
-int console_num_rows = 25;
-int console_num_cols = 80;
+extern void go();
 
-pcb_t* pcb_queue_head = NULL;
-int pcb_queue_length = 0;
-
-// Function Prototypes
-// Process Functions
-void enqueue(pcb_t* pcb);
-pcb_t* dequeue();
-void go();
-// Processes
-void p1();
-void p2();
-void p3();
-void p4();
-void p5();
+extern void p1();
+extern void p2();
+extern void p3();
+extern void p4();
+extern void p5();
 
 // Start of Program
 int main(){
-	k_clearscr(console_num_rows, console_num_cols);
+	k_clearscr(CONSOLE_ROWS, CONSOLE_COLS);
 
 	int screen_text_length = 18;
 	char* screen_text = "Running Processes:";
@@ -98,28 +87,4 @@ void p5(){
     i = ((i+1)%500);
     asm("int $32"); // Call dispatcher
   }
-}
-
-// Process Functions
-void enqueue(pcb_t* pcb){
-	if(pcb_queue_length == 0){
-		pcb_queue_head = pcb;
-	}else{
-		int i = pcb_queue_length;
-		pcb_t* temp = pcb_queue_head;
-		while(--i != 0){
-			temp = temp->next;
-		}
-		temp->next = pcb;
-	}
-	pcb_queue_length++;
-}
-pcb_t* dequeue(){
-	if(pcb_queue_length == 0){
-		return NULL;
-	}
-	pcb_t* temp = pcb_queue_head;
-	pcb_queue_head = pcb_queue_head->next;
-	pcb_queue_length--;
-	return temp;
 }

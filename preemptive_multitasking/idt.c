@@ -32,7 +32,8 @@ void init_idt_entry(idt_entry_t* entry, uint32_t base, uint16_t selector, uint8_
 	entry->always_zero8 = 0;
 }
 
-void lidtr(idtr_t *idtr);
+extern void lidtr(idtr_t *idtr);
+extern void dispatch();
 
 void init_idt(){
 	for(int i=0; i<IDT_TABLE_ITEMS; i++){

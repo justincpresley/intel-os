@@ -3,9 +3,7 @@
 
 #include <stdint.h>
 
-void dispatch();
-
-void default_handler();
-int create_process(uint32_t process_entry);
+extern void default_handler();
+extern int create_process(uint32_t process_entry);
 
 #endif//PROCESS_H
