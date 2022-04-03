@@ -17,18 +17,13 @@ boot1: boot1.asm kernel.exe
 boot2: kernel.exe
 	objcopy -j .text* -j .data* -j .rodata* -S -O binary kernel.exe boot2
 
-kernel.exe: kernel_c.o kernel_asm.o screen_c.o screen_asm.o
+kernel.exe: kernel_c.o kernel_asm.o screen_c.o screen_asm.o pcb_c.o
 	ld -g -melf_i386 -Ttext 0x10000 -e main -o $@ $^
 
-# kernel
-kernel_c.o: kernel.c
+# Form any module needed
+%_c.o: %.c
 	gcc -g -m32 -fno-stack-protector -c -o $@ $<
-kernel_asm.o: kernel.asm
-	nasm -g -f elf -F dwarf -o $@ $<
-# screen
-screen_c.o: screen.c
-	gcc -g -m32 -fno-stack-protector -c -o $@ $<
-screen_asm.o: screen.asm
+%_asm.o: %.asm
 	nasm -g -f elf -F dwarf -o $@ $<
 
 # All other functions of the Makefile

@@ -1,12 +1,10 @@
 #include <stdint.h>
 
+#include "common.h"
 #include "screen.h"
+#include "pcb.h"
 
-#define NULL ((void *)0)
-#define MAX_PROCESS_ALLOCATIONS 20
-#define STACK_SIZE 1024
 #define IDT_SIZE 256
-
 
 // Expected ASM Functions
 // * k_print
@@ -15,13 +13,6 @@
 // * dispatch
 
 // Structures
-// process control block, has all process info
-struct pcb{
-	uint32_t esp;     // stack ptr
-	int pid;          // process id
-	struct pcb* next; // next pcb
-} __attribute__((packed));
-typedef struct pcb pcb_t;
 // an entry within the interrupt descriptor table
 struct idt_entry {
 	uint16_t base_low16;
@@ -40,9 +31,6 @@ typedef struct idtr idtr_t;
 
 
 // Globals
-uint32_t allocated_stacks[MAX_PROCESS_ALLOCATIONS][STACK_SIZE];
-pcb_t allocated_pcbs[MAX_PROCESS_ALLOCATIONS];
-
 int console_num_rows = 25;
 int console_num_cols = 80;
 
@@ -58,8 +46,6 @@ pcb_t* current_pcb = NULL;
 // Process Functions
 void enqueue(pcb_t* pcb);
 pcb_t* dequeue();
-pcb_t* allocate_pcb(){ return &allocated_pcbs[next_pid]; }
-uint32_t* allocate_stack(){ return allocated_stacks[next_pid]; }
 void init_idt_entry(idt_entry_t* entry, uint32_t base, uint16_t selector, uint8_t access);
 void init_idt();
 void go();
@@ -109,44 +95,44 @@ void p1(){
 	}
 }
 void p2(){
-        int i = 0;
-        char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','2',':',' ','0','0','0'};
-        while(1){
-                num_to_str(i, proc_msg+12);
-                k_print(proc_msg, sizeof(proc_msg), 4, 0);
-                i = ((i+1)%500);
-                asm("int $32"); // Call dispatcher
-        }
+  int i = 0;
+  char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','2',':',' ','0','0','0'};
+  while(1){
+    num_to_str(i, proc_msg+12);
+    k_print(proc_msg, sizeof(proc_msg), 4, 0);
+    i = ((i+1)%500);
+    asm("int $32"); // Call dispatcher
+  }
 }
 void p3(){
-        int i = 0;
-        char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','3',':',' ','0','0','0'};
-        while(1){
-                num_to_str(i, proc_msg+12);
-                k_print(proc_msg, sizeof(proc_msg), 5, 0);
-                i = ((i+1)%500);
-                asm("int $32"); // Call dispatcher
-        }
+  int i = 0;
+  char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','3',':',' ','0','0','0'};
+  while(1){
+    num_to_str(i, proc_msg+12);
+    k_print(proc_msg, sizeof(proc_msg), 5, 0);
+    i = ((i+1)%500);
+    asm("int $32"); // Call dispatcher
+  }
 }
 void p4(){
-        int i = 0;
-        char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','4',':',' ','0','0','0'};
-        while(1){
-                num_to_str(i, proc_msg+12);
-                k_print(proc_msg, sizeof(proc_msg), 6, 0);
-                i = ((i+1)%500);
-                asm("int $32"); // Call dispatcher
-        }
+  int i = 0;
+  char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','4',':',' ','0','0','0'};
+  while(1){
+    num_to_str(i, proc_msg+12);
+    k_print(proc_msg, sizeof(proc_msg), 6, 0);
+    i = ((i+1)%500);
+    asm("int $32"); // Call dispatcher
+  }
 }
 void p5(){
-        int i = 0;
-        char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','5',':',' ','0','0','0'};
-        while(1){
-                num_to_str(i, proc_msg+12);
-                k_print(proc_msg, sizeof(proc_msg), 7, 0);
-                i = ((i+1)%500);
-                asm("int $32"); // Call dispatcher
-        }
+  int i = 0;
+  char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','5',':',' ','0','0','0'};
+  while(1){
+    num_to_str(i, proc_msg+12);
+    k_print(proc_msg, sizeof(proc_msg), 7, 0);
+    i = ((i+1)%500);
+    asm("int $32"); // Call dispatcher
+  }
 }
 
 // Process Functions
@@ -183,11 +169,11 @@ void init_idt(){
 	for(int i=0; i<IDT_SIZE; i++){
 		if(i < 32){
 			// for 0-31, set to point to the default handler
-           		init_idt_entry(idt+i, (uint32_t)&default_handler, 16, 0x8e);
-        	}else if(i == 32){
+      init_idt_entry(idt+i, (uint32_t)&default_handler, 16, 0x8e);
+    }else if(i == 32){
 			// for 32, set it to point to dispatcher function
 			init_idt_entry(idt+i, (uint32_t)&dispatch, 16, 0x8e);
-        	}else if(i > 33){
+    }else if(i > 33){
 			// for 33-255, set it to point to 0
 			init_idt_entry(idt+i, 0, 0, 0);
 		}
