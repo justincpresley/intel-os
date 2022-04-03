@@ -34,13 +34,10 @@ typedef struct idtr idtr_t;
 int console_num_rows = 25;
 int console_num_cols = 80;
 
-int next_pid = 0;
 idt_entry_t idt[IDT_SIZE]; // interrupt descriptor table
 
 pcb_t* pcb_queue_head = NULL;
 int pcb_queue_length = 0;
-pcb_t* current_pcb = NULL;
-
 
 // Function Prototypes
 // Process Functions
@@ -245,12 +242,6 @@ int create_process(uint32_t process_entry){
 	st--;
 	*st = 8;
 
-	pcb_t* pcb = allocate_pcb();
-	pcb->esp = (uint32_t)st;
-	pcb->pid = next_pid;
-	pcb->next = NULL;
-
-	next_pid++;
-	enqueue(pcb);
+	enqueue(allocate_pcb((uint32_t)st));
 	return 0; // no errors
 }
