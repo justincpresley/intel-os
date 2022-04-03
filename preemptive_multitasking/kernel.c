@@ -5,6 +5,8 @@
 #include "pcb.h"
 #include "idt.h"
 #include "process.h"
+#include "pic.h"
+#include "timer_device.h"
 
 extern void go();
 
@@ -23,6 +25,8 @@ int main(){
 	k_print(screen_text, screen_text_length, 0, 0);
 
 	init_idt();
+	init_timer_device(50);
+	setup_pic();
 
 	// add all processes
 	int retval;
@@ -45,7 +49,6 @@ void p1(){
 		num_to_str(i, proc_msg+12);
 		k_print(proc_msg, sizeof(proc_msg), 3, 0);
 		i = ((i+1)%500);
-		asm("int $32"); // Call dispatcher
 	}
 }
 void p2(){
@@ -55,7 +58,6 @@ void p2(){
     num_to_str(i, proc_msg+12);
     k_print(proc_msg, sizeof(proc_msg), 4, 0);
     i = ((i+1)%500);
-    asm("int $32"); // Call dispatcher
   }
 }
 void p3(){
@@ -65,7 +67,6 @@ void p3(){
     num_to_str(i, proc_msg+12);
     k_print(proc_msg, sizeof(proc_msg), 5, 0);
     i = ((i+1)%500);
-    asm("int $32"); // Call dispatcher
   }
 }
 void p4(){
@@ -75,7 +76,6 @@ void p4(){
     num_to_str(i, proc_msg+12);
     k_print(proc_msg, sizeof(proc_msg), 6, 0);
     i = ((i+1)%500);
-    asm("int $32"); // Call dispatcher
   }
 }
 void p5(){
@@ -85,6 +85,5 @@ void p5(){
     num_to_str(i, proc_msg+12);
     k_print(proc_msg, sizeof(proc_msg), 7, 0);
     i = ((i+1)%500);
-    asm("int $32"); // Call dispatcher
   }
 }

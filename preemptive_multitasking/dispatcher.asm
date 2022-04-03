@@ -43,5 +43,11 @@ dispatch:
 	pop es
 	pop ds
 	popad
+	; send EOI to PIC
+	push eax
+	mov al, 0x20
+	out 0x20, al
+	pop eax
 	; unique ret
 	iret
+

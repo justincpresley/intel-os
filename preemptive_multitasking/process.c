@@ -21,9 +21,9 @@ int create_process(uint32_t process_entry){
 	uint32_t* st = stackptr + STACK_SIZE;
 
 	// Stack Setup
-	// 0x000 for no interrupts
+	// Time quantum interrupts
 	st--;
-	*st = 0x000;
+	*st = 512;
 	// CS
 	st--;
 	*st = 16;
