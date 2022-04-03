@@ -26,7 +26,7 @@ kernel_c.o: kernel.c
 kernel_asm.o: kernel.asm
 	nasm -g -f elf -F dwarf -o $@ $<
 # screen
-screen_c.o: screen_c
+screen_c.o: screen.c
 	gcc -g -m32 -fno-stack-protector -c -o $@ $<
 screen_asm.o: screen.asm
 	nasm -g -f elf -F dwarf -o $@ $<
