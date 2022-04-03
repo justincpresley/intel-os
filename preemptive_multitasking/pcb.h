@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#include "common.h"
+
 // process control block, has all process info
 struct pcb{
 	uint32_t esp;     // stack ptr

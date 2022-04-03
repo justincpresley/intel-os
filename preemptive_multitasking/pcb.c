@@ -1,5 +1,4 @@
 #include "pcb.h"
-#include "common.h"
 
 uint32_t allocated_stacks[MAX_PROCESS_ALLOCATIONS][STACK_SIZE];
 pcb_t allocated_pcbs[MAX_PROCESS_ALLOCATIONS];
