@@ -49,7 +49,6 @@ int num_to_str_helper(uint32_t num, char buf[]){
 	buf[idx+1] = '\0';
 	return idx + 1;
 }
-
 void num_to_str(uint32_t num, char buf[]){
 	if(num == 0){
 		buf[0] = '0';

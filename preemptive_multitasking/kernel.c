@@ -3,8 +3,7 @@
 #include "common.h"
 #include "screen.h"
 #include "pcb.h"
-
-#define IDT_SIZE 256
+#include "idt.h"
 
 // Expected ASM Functions
 // * k_print
@@ -12,29 +11,9 @@
 // * go
 // * dispatch
 
-// Structures
-// an entry within the interrupt descriptor table
-struct idt_entry {
-	uint16_t base_low16;
-	uint16_t selector;
-	uint8_t always0;
-	uint8_t access;
-	uint16_t base_high16;
-} __attribute__((packed));
-typedef struct idt_entry idt_entry_t;
-// struct for intel idt assembler instruction
-struct idtr {
-    uint16_t limit;
-    uint32_t base;
-} __attribute__((packed));
-typedef struct idtr idtr_t;
-
-
 // Globals
 int console_num_rows = 25;
 int console_num_cols = 80;
-
-idt_entry_t idt[IDT_SIZE]; // interrupt descriptor table
 
 pcb_t* pcb_queue_head = NULL;
 int pcb_queue_length = 0;
@@ -43,12 +22,10 @@ int pcb_queue_length = 0;
 // Process Functions
 void enqueue(pcb_t* pcb);
 pcb_t* dequeue();
-void init_idt_entry(idt_entry_t* entry, uint32_t base, uint16_t selector, uint8_t access);
-void init_idt();
+
 void go();
 void dispatch();
 void default_handler();
-void lidtr(idtr_t* idtr);
 int create_process(uint32_t process_entry);
 // Processes
 void p1();
@@ -154,31 +131,6 @@ pcb_t* dequeue(){
 	pcb_queue_head = pcb_queue_head->next;
 	pcb_queue_length--;
 	return temp;
-}
-void init_idt_entry(idt_entry_t* entry, uint32_t base, uint16_t selector, uint8_t access){
-	entry->base_low16 = (uint16_t) ((uint32_t) base & 0x0000FFFF);
-	entry->base_high16 = (uint16_t) (((uint32_t) base & 0xFFFF0000) >> 16);
-	entry->selector = selector;
-	entry->access = access;
-	entry->always0 = 0;
-}
-void init_idt(){
-	for(int i=0; i<IDT_SIZE; i++){
-		if(i < 32){
-			// for 0-31, set to point to the default handler
-      init_idt_entry(idt+i, (uint32_t)&default_handler, 16, 0x8e);
-    }else if(i == 32){
-			// for 32, set it to point to dispatcher function
-			init_idt_entry(idt+i, (uint32_t)&dispatch, 16, 0x8e);
-    }else if(i > 33){
-			// for 33-255, set it to point to 0
-			init_idt_entry(idt+i, 0, 0, 0);
-		}
-	}
-	idtr_t idtr;
-	idtr.limit = (sizeof(idt_entry_t) * IDT_SIZE) - 1;
-	idtr.base = (uint32_t)&idt;
-	lidtr(&idtr);
 }
 void default_handler(){
 	// print an error
