@@ -213,9 +213,9 @@ int create_process(uint32_t process_entry){
 	uint32_t* st = stackptr + STACK_SIZE;
 
 	// Stack Setup
-	// 0x200 for interrupts
+	// 0x000 for no interrupts
 	st--;
-	*st = 0x200;
+	*st = 0x000;
 	// CS
 	st--;
 	*st = 16;
