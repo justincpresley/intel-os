@@ -1,6 +1,8 @@
 #ifndef ROUND_ROBIN_H
 #define ROUND_ROBIN_H
 
+#include "pcb.h"
+
 extern pcb_t* pcb_queue_head;
 extern int pcb_queue_length;
 

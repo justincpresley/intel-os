@@ -1,6 +1,5 @@
 #include "round_robin.h"
 #include "common.h"
-#include "pcb.h"
 
 pcb_t* pcb_queue_head = NULL;
 int pcb_queue_length = 0;
