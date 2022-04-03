@@ -22,19 +22,19 @@ kernel.exe: kernel_c.o kernel_asm.o screen_c.o screen_asm.o
 
 # kernel
 kernel_c.o: kernel.c
-	$(CC) $(COPTS) -o $@ $<
+	gcc -g -m32 -fno-stack-protector -c -o $@ $<
 kernel_asm.o: kernel.asm
-	$(NASM) $(NASMOPTS) -o $@ $<
+	nasm -g -f elf -F dwarf -o $@ $<
 # screen
 screen_c.o: screen_c
-	$(CC) $(COPTS) -o $@ $<
+	gcc -g -m32 -fno-stack-protector -c -o $@ $<
 screen_asm.o: screen.asm
-	$(NASM) $(NASMOPTS) -o $@ $<
+	nasm -g -f elf -F dwarf -o $@ $<
 
 # All other functions of the Makefile
 complete: build install run
 install:
-	bximage -mode=create -fd=1.44M  -q a.img
+	yes | bximage -mode=create -fd=1.44M  -q a.img
 	/sbin/mkdosfs a.img
 	dd if=boot1 of=a.img bs=1 count=512 conv=notrunc
 	mcopy -o boot2 a:BOOT2
