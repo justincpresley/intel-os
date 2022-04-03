@@ -1,4 +1,5 @@
 #include "idt.h"
+#include "process.h"
 
 #include <stdint.h>
 
@@ -13,7 +14,6 @@ struct idt_entry {
 	uint16_t base_high16;
 } __attribute__((packed));
 typedef struct idt_entry idt_entry_t;
-
 // struct for intel idt assembler instruction
 struct idtr {
     uint16_t limit;
@@ -32,10 +32,10 @@ void init_idt_entry(idt_entry_t* entry, uint32_t base, uint16_t selector, uint8_
 	entry->always_zero8 = 0;
 }
 
-void lidt(idtr_t *idtr);
+void lidtr(idtr_t *idtr);
 
 void init_idt(){
-	for(int i=0; i<IDT_SIZE; i++){
+	for(int i=0; i<IDT_TABLE_ITEMS; i++){
 		if(i < 32){
 			// for 0-31, set to point to the default handler
       init_idt_entry(idt+i, (uint32_t)&default_handler, 16, 0x8e);
@@ -48,7 +48,7 @@ void init_idt(){
 		}
 	}
 	idtr_t idtr;
-	idtr.limit = (sizeof(idt_entry_t) * IDT_SIZE) - 1;
+	idtr.limit = (sizeof(idt_entry_t) * IDT_TABLE_ITEMS) - 1;
 	idtr.base = (uint32_t)&idt;
 	lidtr(&idtr);
 }

@@ -17,7 +17,7 @@ boot1: boot1.asm kernel.exe
 boot2: kernel.exe
 	objcopy -j .text* -j .data* -j .rodata* -S -O binary kernel.exe boot2
 
-kernel.exe: kernel_c.o kernel_asm.o screen_c.o screen_asm.o pcb_c.o idt_c.o idt_asm.o
+kernel.exe: kernel_c.o kernel_asm.o screen_c.o screen_asm.o pcb_c.o idt_c.o idt_asm.o process_c.o process_asm.o
 	ld -g -melf_i386 -Ttext 0x10000 -e main -o $@ $^
 
 # Form any module needed for build

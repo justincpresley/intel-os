@@ -1,4 +1,5 @@
 #include "pcb.h"
+#include "common.h"
 
 pcb_t* current_pcb = NULL;
 int next_pid = 0;
