@@ -12,6 +12,7 @@ struct pcb{
 typedef struct pcb pcb_t;
 
 pcb_t* current_pcb = NULL;
+int next_pid = 0;
 
 uint32_t* allocate_stack();
 pcb_t* allocate_pcb(uint32_t esp);
