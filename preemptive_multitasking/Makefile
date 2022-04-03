@@ -20,10 +20,15 @@ boot2: kernel.exe
 kernel.exe: kernel_c.o kernel_asm.o screen_c.o screen_asm.o
 	ld -g -melf_i386 -Ttext 0x10000 -e main -o $@ $^
 
-# Build all Modules
-%_c.o: %.c
+# kernel
+kernel_c.o: kernel.c
 	$(CC) $(COPTS) -o $@ $<
-%_asm.o: %.asm
+kernel_asm.o: kernel.asm
+	$(NASM) $(NASMOPTS) -o $@ $<
+# screen
+screen_c.o: screen_c
+	$(CC) $(COPTS) -o $@ $<
+screen_asm.o: screen.asm
 	$(NASM) $(NASMOPTS) -o $@ $<
 
 # All other functions of the Makefile
