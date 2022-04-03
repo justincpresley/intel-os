@@ -4,7 +4,7 @@
 
 extern void outportb(uint16_t port, uint8_t value);
 
-void setup_PIC() {
+void setup_pic() {
   // set up cascading mode:
   outportb(0x20, 0x11); // start 8259 master initialization
   outportb(0xA0, 0x11); // start 8259 slave initialization
