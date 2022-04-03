@@ -20,15 +20,15 @@ init_timer_device:
   ; The PIT will be initalized to mode 3, Read or Load LSB first then MSB, and
   ; Channel (counter) 0 with the following bits: 0b00110110 =
   ; Counter 0 |Read then load|Mode 3|Binary. So, the instructions will be:
-  mov al, 0b00110110 // 0x43 is the Write control word
+  mov al, 0b00110110 ; 0x43 is the Write control word
   out 0x43, al
 
   ; 5) Load the LSB first then the MSB.
   ; 0x40 = Load counter 0 with the following code:
   mov ax, dx
-  out 0x40, al //LSB
+  out 0x40, al ; LSB first
   xchg ah, al
-  out 0x40, al //MSB
+  out 0x40, al ; MSB second
 
   ; 6) clean up (pop ebp and other regs used) and return
   popad
