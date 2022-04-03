@@ -1,5 +1,7 @@
 #include "pcb.h"
 
+pcb_t* current_pcb = NULL;
+int next_pid = 0;
 uint32_t allocated_stacks[MAX_PROCESS_ALLOCATIONS][STACK_SIZE];
 pcb_t allocated_pcbs[MAX_PROCESS_ALLOCATIONS];
 

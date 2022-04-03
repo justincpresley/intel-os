@@ -13,10 +13,10 @@ struct pcb{
 };
 typedef struct pcb pcb_t;
 
-pcb_t* current_pcb = NULL;
-int next_pid = 0;
+extern pcb_t* current_pcb;
+extern int next_pid;
 
-uint32_t* allocate_stack();
-pcb_t* allocate_pcb(uint32_t esp);
+extern uint32_t* allocate_stack();
+extern pcb_t* allocate_pcb(uint32_t esp);
 
 #endif//PCB_H
