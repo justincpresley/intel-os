@@ -6,8 +6,8 @@
 #	'make install'   install the os
 #	'make run'       boot the os
 #	'make debug'     debug with another terminal
-#       'make clean'     removes the entire os build
-#       'make complete'  builds, installs, and runs the os
+# 'make clean'     removes the entire os build
+# 'make complete'  builds, installs, and runs the os
 
 all: build
 build: boot1 boot2
@@ -17,7 +17,7 @@ boot1: boot1.asm kernel.exe
 boot2: kernel.exe
 	objcopy -j .text* -j .data* -j .rodata* -S -O binary kernel.exe boot2
 
-kernel.exe: kernel_c.o kernel_asm.o 
+kernel.exe: kernel_c.o kernel_asm.o
 	ld  -g -melf_i386 -Ttext 0x10000 -e main -o kernel.exe kernel_asm.o kernel_c.o
 
 kernel_c.o: kernel.c
