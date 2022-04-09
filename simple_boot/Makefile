@@ -1,13 +1,14 @@
 # Author: Justin C Presley
 # Purpose: Build an OS and have a way to Boot into it.
 # Functions:
-#	'make'           build an os to boot to
-#	'make build'     same as 'make'
-#	'make install'   install the os
-#	'make run'       boot the os
-#	'make debug'     debug with another terminal
-# 'make clean'     removes the entire os build
-# 'make complete'  builds, installs, and runs the os
+#	'make'             build os to boot to
+#	'make build'       same as 'make'
+#	'make install'     install os
+#	'make run'         boot / run os
+#	'make debug'       run os in debug mode in background while you actively debug os
+# 'make debug-qonly' run os in debug mode
+# 'make clean'       removes entire os build
+# 'make complete'    builds, installs, and runs the os
 
 all: build
 build: boot1 boot2
@@ -35,6 +36,9 @@ install:
 run:
 	qemu-system-i386 -boot a -fda a.img
 debug:
+	qemu-system-i386 -S -s -boot a -fda a.img &
+	ddd --debugger 'gdb -ex "target remote localhost:1234" -ex "break main" -ex "continue"' kernel.exe
+debug_qonly:
 	qemu-system-i386 -S -s -boot a -fda a.img
 clean:
 	rm -f *.o *.exe *.list a.img boot1 boot2

@@ -22,6 +22,7 @@ If you would like to try out any of the concepts that are implemented, the follo
  * [mcopy](https://command-not-found.com/mcopy): modify the image
  * [qemu-system-i386](https://command-not-found.com/qemu-system-i386): running and debug an image
  * [make](https://command-not-found.com/make): piece the entire puzzle together automatically and to minimize compiling
+ * [gdb](https://command-not-found.com/gdb): only need if debugging the os
 
 All of above is either standard on a Linux distro already or can simply be installed through a package tool.
 
