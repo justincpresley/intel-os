@@ -9,8 +9,8 @@ void idle(){
   char* screen_text = "| OS Status: IDLE  /  |";
   k_print(screen_text, screen_text_length, CONSOLE_ROWS-1, CONSOLE_COLS-26);
   while(1){
-    k_print("\\", 1, CONSOLE_ROWS-1, CONSOLE_COLS-6);
-    k_print("/", 1, CONSOLE_ROWS-1, CONSOLE_COLS-6);
+    k_print("\\", 1, CONSOLE_ROWS-1, CONSOLE_COLS-7);
+    k_print("/", 1, CONSOLE_ROWS-1, CONSOLE_COLS-7);
   }
 }
 
