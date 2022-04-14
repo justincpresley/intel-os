@@ -17,7 +17,7 @@ extern void p5();
 // Start of Program
 int main(){
 	k_clearscr(CONSOLE_ROWS, CONSOLE_COLS);
-	print_border(0, 0, CONSOLE_ROWS-1, CONSOLE_COLS-1);
+	print_border(1, 1, CONSOLE_ROWS, CONSOLE_COLS);
 
 	int screen_text_length = 18;
 	char* screen_text = "Running Processes:";
