@@ -63,8 +63,8 @@ void p3(){
   int i = 0;
   char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','3',':',' ','0','0','0'};
   while(i < INT_MAX/100){
-    num_to_str(i, proc_msg+12);
+    num_to_str(i%500, proc_msg+12);
     k_print(proc_msg, sizeof(proc_msg), 5, 0);
-    i = ((i+1)%500);
+    i += 1;
   }
 }
