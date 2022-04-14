@@ -46,7 +46,7 @@ void p1(){
   char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','1',':',' ','0','0','0'};
   while(i < INT_MAX/100){
     num_to_str(i%500, proc_msg+12);
-    k_print(proc_msg, sizeof(proc_msg), 5, 1);
+    k_print(proc_msg, sizeof(proc_msg), 3, 1);
     i += 1;
   }
 	k_print("DONE", 4, 5, 13);
@@ -56,7 +56,7 @@ void p2(){
   char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','2',':',' ','0','0','0'};
   while(i < INT_MAX/100){
     num_to_str(i%500, proc_msg+12);
-    k_print(proc_msg, sizeof(proc_msg), 5, 1);
+    k_print(proc_msg, sizeof(proc_msg), 4, 1);
     i += 1;
   }
 	k_print("DONE", 4, 5, 13);
