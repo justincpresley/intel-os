@@ -43,28 +43,31 @@ int main(){
 // Processes
 void p1(){
 	int i = 0;
-	char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','1',':',' ','0','0','0'};
-	while(1){
-		num_to_str(i, proc_msg+12);
-		k_print(proc_msg, sizeof(proc_msg), 3, 0);
-		i = ((i+1)%500);
-	}
+  char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','1',':',' ','0','0','0'};
+  while(i < INT_MAX/100){
+    num_to_str(i%500, proc_msg+12);
+    k_print(proc_msg, sizeof(proc_msg), 5, 1);
+    i += 1;
+  }
+	k_print("DONE", 4, 5, 13);
 }
 void p2(){
-  int i = 0;
+	int i = 0;
   char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','2',':',' ','0','0','0'};
-  while(1){
-    num_to_str(i, proc_msg+12);
-    k_print(proc_msg, sizeof(proc_msg), 4, 0);
-    i = ((i+1)%500);
+  while(i < INT_MAX/100){
+    num_to_str(i%500, proc_msg+12);
+    k_print(proc_msg, sizeof(proc_msg), 5, 1);
+    i += 1;
   }
+	k_print("DONE", 4, 5, 13);
 }
 void p3(){
   int i = 0;
   char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','3',':',' ','0','0','0'};
   while(i < INT_MAX/100){
     num_to_str(i%500, proc_msg+12);
-    k_print(proc_msg, sizeof(proc_msg), 5, 0);
+    k_print(proc_msg, sizeof(proc_msg), 5, 1);
     i += 1;
   }
+	k_print("DONE", 4, 5, 13);
 }
