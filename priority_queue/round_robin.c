@@ -10,10 +10,18 @@ void enqueue(pcb_t* pcb){
 	}else{
 		int i = pcb_queue_length;
 		pcb_t* temp = pcb_queue_head;
-		while(--i != 0){
-			temp = temp->next;
+		if(temp->priority < pcb->priority){
+			pcb->next = temp;
+			pcb_queue_head = pcb;
+		}else{
+			while(--i != 0 && temp->next->priority > pcb->priority){
+				temp = temp->next;
+			}
+			if(i != 0){
+				pcb->next = temp->next;
+			}
+			temp->next = pcb;
 		}
-		temp->next = pcb;
 	}
 	pcb_queue_length++;
 }
