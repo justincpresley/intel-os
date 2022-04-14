@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <limits.h>
 
 #include "common.h"
 #include "screen.h"
@@ -61,7 +62,7 @@ void p2(){
 void p3(){
   int i = 0;
   char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','3',':',' ','0','0','0'};
-  while(1){
+  while(i < INT_MAX/100){
     num_to_str(i, proc_msg+12);
     k_print(proc_msg, sizeof(proc_msg), 5, 0);
     i = ((i+1)%500);
