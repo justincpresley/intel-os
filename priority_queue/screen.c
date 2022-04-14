@@ -33,11 +33,11 @@ void print_border(int start_row, int start_col, int end_row, int end_col){
 	for(i=0; i<numrow; i++){
 		if(i == 0 || i == numrow-1){
 			// bottom or top
-			k_print(tbarr, numcol, i+(start_row-1), start_col-1);
+			k_print(tbarr, numcol, i+(start_row), start_col);
 		}else{
 			// in the middle
-			k_print(sidechar, 1, i+(start_row-1), start_col-1); // left
-			k_print(sidechar, 1, i+(start_row-1), end_col-1); // right
+			k_print(sidechar, 1, i+(start_row), start_col); // left
+			k_print(sidechar, 1, i+(start_row), end_col); // right
 		}
 	}
 }

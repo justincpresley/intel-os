@@ -17,11 +17,11 @@ extern void p5();
 // Start of Program
 int main(){
 	k_clearscr(CONSOLE_ROWS, CONSOLE_COLS);
-	print_border(1, 1, CONSOLE_ROWS, CONSOLE_COLS);
+	print_border(0, 0, CONSOLE_ROWS-1, CONSOLE_COLS-1);
 
 	int screen_text_length = 18;
-	char* screen_text = "Running Processes:";
-	k_print(screen_text, screen_text_length, 0, 0);
+	char* screen_text = "OS Status: RUNNING";
+	k_print(screen_text, screen_text_length, 1, CONSOLE_COLS-25);
 
 	init_idt();
 	init_timer_device(50);
