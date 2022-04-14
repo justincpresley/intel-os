@@ -19,7 +19,7 @@ int main(){
 	k_clearscr(CONSOLE_ROWS, CONSOLE_COLS);
 	print_border(1, 1, CONSOLE_ROWS, CONSOLE_COLS);
 
-	int screen_text_length = 31;
+	int screen_text_length = 23;
 	char* screen_text = "| OS Status: RUNNING  |";
 	k_print(screen_text, screen_text_length, CONSOLE_ROWS-1, CONSOLE_COLS-26);
 

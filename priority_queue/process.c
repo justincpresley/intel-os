@@ -5,7 +5,7 @@
 #include "round_robin.h"
 
 void idle(){
-  int screen_text_length = 31;
+  int screen_text_length = 23;
   char* screen_text = "| OS Status: IDLE  /  |";
   k_print(screen_text, screen_text_length, CONSOLE_ROWS-1, CONSOLE_COLS-26);
   while(1){
@@ -16,7 +16,7 @@ void idle(){
 
 void default_handler(){
 	// print an error
-	int screen_text_length = 31;
+	int screen_text_length = 23;
 	char* screen_text = "| OS Status: ERROR    |";
 	k_print(screen_text, screen_text_length, CONSOLE_ROWS-1, CONSOLE_COLS-26);
 	// run forever, not allowing return as it would cause an error
