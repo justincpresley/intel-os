@@ -33,7 +33,7 @@ int create_process(uint32_t process_entry, uint32_t priority){
 	// Stack Setup
 	// Address to jump to after Exit
 	st--;
-	*st = go;
+	*st = (uint32_t)&go;
 	// Time quantum interrupts
 	st--;
 	*st = 512;
