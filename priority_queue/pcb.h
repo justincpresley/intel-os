@@ -5,10 +5,10 @@
 
 // process control block, has all process info
 struct pcb{
-	uint32_t esp;     // stack ptr
-	uint32_t pid;     // process id
-	uint32_t priority // process priority
-	struct pcb* next; // next pcb
+	uint32_t esp;       // stack ptr
+	uint32_t pid;       // process id
+	uint32_t priority;  // process priority
+	struct pcb* next;   // next pcb
 };
 typedef struct pcb pcb_t;
 
