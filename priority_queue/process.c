@@ -5,20 +5,20 @@
 #include "round_robin.h"
 
 void idle(){
-  int i = 0;
-  char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','n',':',' ','0','0','0'};
+  int screen_text_length = 31;
+  char* screen_text = "| OS Status: IDLE  /  |";
+  k_print(screen_text, screen_text_length, CONSOLE_ROWS-1, CONSOLE_COLS-26);
   while(1){
-    num_to_str(i, proc_msg+12);
-    k_print(proc_msg, sizeof(proc_msg), 5, 0);
-    i = ((i+1)%500);
+    k_print("\\", 1, CONSOLE_ROWS-1, CONSOLE_COLS-6);
+    k_print("/", 1, CONSOLE_ROWS-1, CONSOLE_COLS-6);
   }
 }
 
 void default_handler(){
 	// print an error
 	int screen_text_length = 31;
-	char* screen_text = "ERROR: Entering Default Handler";
-	k_print(screen_text, screen_text_length, 24, 0);
+	char* screen_text = "| OS Status: ERROR    |";
+	k_print(screen_text, screen_text_length, CONSOLE_ROWS-1, CONSOLE_COLS-26);
 	// run forever, not allowing return as it would cause an error
 	while(1);
 }

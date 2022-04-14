@@ -19,14 +19,10 @@ int main(){
 	k_clearscr(CONSOLE_ROWS, CONSOLE_COLS);
 	print_border(0, 0, CONSOLE_ROWS-1, CONSOLE_COLS-1);
 
-	int screen_text_length = 23;
+	int screen_text_length = 31;
 	char* screen_text = "| OS Status: RUNNING  |";
-	k_print(screen_text, screen_text_length, CONSOLE_ROWS-1, CONSOLE_COLS-25);
-/*
-	: ERROR    |
-	: RUNNING  |
-	: IDLE /   |
-*/
+	k_print(screen_text, screen_text_length, CONSOLE_ROWS-1, CONSOLE_COLS-26);
+
 	init_idt();
 	init_timer_device(50);
 	setup_pic();
