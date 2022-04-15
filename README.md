@@ -29,6 +29,6 @@ All of above is either standard on a Linux distro already or can simply be insta
 
 For Build instructions, please see the "Makefile" corresponding to the concept that you are running. For simplest option, you can just run "make complete" which will build, install, and begin running the os.
 
-Optionally, you may install the requirements using ``install_reqs.sh``.
+Optionally, you may install the requirements using ``install_reqs.sh``
 
 NOTE: This is repository is an archive representing previous experience / knowledge.
