@@ -7,6 +7,7 @@ The concepts that I worked on are seen below. Each concept builds on the last to
  * [Simple Boot](https://github.com/justincpresley/intel-os/tree/master/simple_boot)
  * [Cooperative Multitasking](https://github.com/justincpresley/intel-os/tree/master/cooperative_multitasking)
  * [Preemptive Multitasking](https://github.com/justincpresley/intel-os/tree/master/preemptive_multitasking)
+ * [Priority Queue](https://github.com/justincpresley/intel-os/tree/master/priority_queue)
 
 Throughout every concept, I did include extra features and make the code modular.
 
