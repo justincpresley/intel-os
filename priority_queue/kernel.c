@@ -19,10 +19,7 @@ extern void p5();
 int main(){
 	k_clearscr(CONSOLE_ROWS, CONSOLE_COLS);
 	print_border(1, 1, CONSOLE_ROWS, CONSOLE_COLS);
-
-	int screen_text_length = 23;
-	char* screen_text = "| OS Status: RUNNING  |";
-	k_print(screen_text, screen_text_length, CONSOLE_ROWS-1, CONSOLE_COLS-26);
+	k_print("| OS Status: RUNNING  |", 23, CONSOLE_ROWS-1, CONSOLE_COLS-26);
 
 	init_idt();
 	init_timer_device(50);
@@ -45,27 +42,27 @@ void p1(){
 	int i = 0;
   char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','1',':',' ','0','0','0'};
   while(i < INT_MAX/100){
-    num_to_str(i%500, proc_msg+12);
+    num_to_str(i%999, proc_msg+12);
     k_print(proc_msg, sizeof(proc_msg), 3, 1);
     i += 1;
   }
-	k_print("DONE", 4, 5, 13);
+	k_print("DONE", 4, 3, 13);
 }
 void p2(){
 	int i = 0;
   char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','2',':',' ','0','0','0'};
   while(i < INT_MAX/100){
-    num_to_str(i%500, proc_msg+12);
+    num_to_str(i%999, proc_msg+12);
     k_print(proc_msg, sizeof(proc_msg), 4, 1);
     i += 1;
   }
-	k_print("DONE", 4, 5, 13);
+	k_print("DONE", 4, 4, 13);
 }
 void p3(){
   int i = 0;
   char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','3',':',' ','0','0','0'};
   while(i < INT_MAX/100){
-    num_to_str(i%500, proc_msg+12);
+    num_to_str(i%999, proc_msg+12);
     k_print(proc_msg, sizeof(proc_msg), 5, 1);
     i += 1;
   }
