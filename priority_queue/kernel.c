@@ -27,6 +27,7 @@ int main(){
 
 	// add all processes
 	int retval;
+	k_print("Added 3 Processes to the Queue.", 31, 1, 1);
 	retval = create_process((uint32_t)&idle, 5);
 	retval = create_process((uint32_t)&p1, 10);
 	retval = create_process((uint32_t)&p2, 10);
@@ -41,7 +42,7 @@ int main(){
 void p1(){
 	int i = 0;
   char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','1',':',' ','0','0','0'};
-  while(i < INT_MAX/100){
+  while(i < (INT_MAX/100)){
     num_to_str(i%999, proc_msg+12);
     k_print(proc_msg, sizeof(proc_msg), 3, 1);
     i += 1;
@@ -51,7 +52,7 @@ void p1(){
 void p2(){
 	int i = 0;
   char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','2',':',' ','0','0','0'};
-  while(i < INT_MAX/100){
+  while(i < (INT_MAX/100)){
     num_to_str(i%999, proc_msg+12);
     k_print(proc_msg, sizeof(proc_msg), 4, 1);
     i += 1;
@@ -61,7 +62,7 @@ void p2(){
 void p3(){
   int i = 0;
   char proc_msg[16] = {'p','r','o','c','e','s','s',' ','p','3',':',' ','0','0','0'};
-  while(i < INT_MAX/100){
+  while(i < (INT_MAX/100)){
     num_to_str(i%999, proc_msg+12);
     k_print(proc_msg, sizeof(proc_msg), 5, 1);
     i += 1;
