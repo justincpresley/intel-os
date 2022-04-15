@@ -14,7 +14,7 @@ Throughout every concept, I did include extra features and make the code modular
 If you would like to try out any of the concepts that are implemented, the following requirements are needed for the following reasons:
 
  * [nasm](https://command-not-found.com/nasm): compiling the intel assembly code
- * [gcc](https://command-not-found.com/gcc): compiling the c code
+ * [gcc](https://command-not-found.com/gcc) + [gcc-multilib](https://zoomadmin.com/HowToInstall/UbuntuPackage/gcc-multilib): compiling the c code
  * [objcopy](https://command-not-found.com/objcopy): removing extra symbols and such that my os can not handle (likely included already)
  * [ld](https://command-not-found.com/ld): link object code into a executable (likely included already)
  * [bximage](https://command-not-found.com/bximage): create a image
@@ -28,5 +28,7 @@ If you would like to try out any of the concepts that are implemented, the follo
 All of above is either standard on a Linux distro already or can simply be installed through a package tool.
 
 For Build instructions, please see the "Makefile" corresponding to the concept that you are running. For simplest option, you can just run "make complete" which will build, install, and begin running the os.
+
+Optionally, you may install the requirements using ``install_reqs.sh``.
 
 NOTE: This is repository is an archive representing previous experience / knowledge.
